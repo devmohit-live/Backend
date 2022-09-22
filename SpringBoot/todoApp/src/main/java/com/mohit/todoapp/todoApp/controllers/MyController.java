@@ -20,4 +20,6 @@ public class MyController {
 	public String sayHelloView() {
 		return "hello";
 	}
+
 }
+	
