@@ -10,6 +10,8 @@ public class ToDo {
 	private String description;
 	private LocalDate targetDate;
 	private boolean isCompleted;
+	
+	
 
 	public ToDo(int id, String username, String description, LocalDate targetDate, boolean isCompleted) {
 		this.id = id;
@@ -51,11 +53,13 @@ public class ToDo {
 		this.targetDate = targetDate;
 	}
 
-	public boolean isCompleted() {
+	
+
+	public boolean getIsCompleted() {
 		return isCompleted;
 	}
 
-	public void setCompleted(boolean isCompleted) {
+	public void setIsCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
 	}
 
@@ -65,4 +69,6 @@ public class ToDo {
 				+ targetDate + ", isCompleted=" + isCompleted + "]";
 	}
 
+
+	
 }
