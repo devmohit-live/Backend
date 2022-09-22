@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
+
 public class ToDo {
 	private int id;
 	private String username;
@@ -13,12 +14,17 @@ public class ToDo {
 	
 	
 
+
 	public ToDo(int id, String username, String description, LocalDate targetDate, boolean isCompleted) {
 		this.id = id;
 		this.username = username;
 		this.description = description;
 		this.targetDate = targetDate;
 		this.isCompleted = isCompleted;
+	}
+
+	public ToDo() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {

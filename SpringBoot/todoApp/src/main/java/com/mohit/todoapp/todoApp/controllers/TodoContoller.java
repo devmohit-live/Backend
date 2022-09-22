@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -28,12 +29,14 @@ public class TodoContoller {
 	}
 	
 	@GetMapping("/add-todo")
-	public String addTodo(ModelMap model) {
-		String username = (String)model.get("username");
-		ToDo todo = new ToDo(0, username, null, LocalDate.now(), false);
-		//default todo for modelAttribute form 
+	public String gotoTodo(@ModelAttribute("newTodo")ToDo todo) {
+//		String username = (String)model.get("username");
+////		ToDo todo = new ToDo(0, username, null, LocalDate.now(), false);
+//		ToDo todo = new ToDo();
+//		
+//		//default todo for modelAttribute form 
 		
-		model.put("todo", todo);
+//		model.put("todo", todo);
 		return "addTodo";
 	}
 	
@@ -45,7 +48,7 @@ public class TodoContoller {
 	
 	
 	@PostMapping("/add-todo")
-	public String addTodo(ModelMap map, ToDo todo) {
+	public String addTodo(ModelMap map,  @ModelAttribute("newTodo")ToDo todo) {
 		services.addTodo(todo.getDescription(), (String)map.get("username"));
 		return "redirect:list-todos";
 	}

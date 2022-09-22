@@ -12,7 +12,7 @@
 <body>
 	<h2>Add Todo Page</h2>
 	<div class="container">
-		<form:form method="post" modelAttribute="todo">
+		<form:form method="post" modelAttribute="newTodo">
 			Description : <form:input type="text" path="description"/>
 			 <form:input type="hidden" path="isCompleted"/>
 			 <form:input type="hidden" path="id"/>
