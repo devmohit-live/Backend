@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Welcome Page</title>
+<title>Todo's List Page</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<p>Welcome to web  ${username}</p>
-	<p>Your password is ${password}</p>
-	<div><a href="list-todos">Manage Todos</a></div>
+	<p>Welcome ${username} your Todo's are :</p>
+	${todos}
 </body>
 </html>
