@@ -3,9 +3,12 @@ package com.mohit.todoapp.todoApp.controllers;
 
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,11 +19,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.mohit.todoapp.todoApp.Services.TodoServices;
 import com.mohit.todoapp.todoApp.entity.ToDo;
 
+import jakarta.validation.Valid;
+
 @Controller
 @SessionAttributes("username")
 public class TodoContoller {
 	@Autowired
-	TodoServices services;
+	private TodoServices services;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@GetMapping("/list-todos")
 	public String getTodos(ModelMap map) {
@@ -46,9 +53,19 @@ public class TodoContoller {
 //		return "redirect:list-todos";
 //	}
 	
+	//We are using JSR-380 Validation rules
+	
+	//BindingResult stores the add invalid validation results
+	// it have to be placed just immediate adjacent to @modelAttribute
 	
 	@PostMapping("/add-todo")
-	public String addTodo(ModelMap map,  @ModelAttribute("newTodo")ToDo todo) {
+	public String addTodo(ModelMap map, @Valid @ModelAttribute("newTodo")ToDo todo, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			logger.info("This is the error {} ", bindingResult.getAllErrors());
+			return "addTodo"; //remain at same page
+		}
+		
+		
 		services.addTodo(todo.getDescription(), (String)map.get("username"));
 		return "redirect:list-todos";
 	}

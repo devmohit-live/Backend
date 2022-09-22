@@ -14,6 +14,9 @@
 	<div class="container">
 		<form:form method="post" modelAttribute="newTodo">
 			Description : <form:input type="text" path="description"/>
+			<form:errors path="description" cssClass="text-danger" />
+			
+			<br/>
 			 <form:input type="hidden" path="isCompleted"/>
 			 <form:input type="hidden" path="id"/>
 			
