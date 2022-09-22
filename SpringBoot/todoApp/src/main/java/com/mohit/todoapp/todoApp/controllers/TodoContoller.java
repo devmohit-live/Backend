@@ -70,6 +70,12 @@ public class TodoContoller {
 		return "redirect:list-todos";
 	}
 	
+	@GetMapping("/delete-todo")
+	public String deletTodo(@RequestParam int id) {
+		services.delete(id);
+		return "redirect:list-todos";
+	}
+	
 	
 
 }

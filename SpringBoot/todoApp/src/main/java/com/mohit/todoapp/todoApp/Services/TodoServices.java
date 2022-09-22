@@ -31,4 +31,9 @@ public class TodoServices {
 	public void addTodo(String description,String username) {
 		todos.add(new ToDo(++idx, username, description, LocalDate.now().plusYears(1), false))	;	
 	}
+
+
+	public void delete(int id) {
+		todos.removeIf(el->el.getId()==id);
+	}
 }
