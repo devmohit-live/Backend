@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.mohit.todoapp.todoApp.entity.ToDo;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TodoServices {
 	private static List<ToDo> todos = new ArrayList<>();
@@ -28,12 +30,26 @@ public class TodoServices {
 	}
 
 
-	public void addTodo(String description,String username) {
-		todos.add(new ToDo(++idx, username, description, LocalDate.now().plusYears(1), false))	;	
+	public void addTodo(String description,String username, LocalDate date) {
+		todos.add(new ToDo(++idx, username, description, date, false))	;	
 	}
 
 
-	public void delete(int id) {
+	public void deleteById(int id) {
 		todos.removeIf(el->el.getId()==id);
 	}
+
+
+	public ToDo findById(int id) {
+		// TODO Auto-generated method stub
+		return  todos.stream().filter(el->el.getId()==id).findFirst().get();
+	}
+	
+	public void updateTodo(@Valid ToDo todo) {
+		deleteById(todo.getId());
+		todo.setTargetDate(null);
+		todos.add(todo);
+	}
+	
+	
 }

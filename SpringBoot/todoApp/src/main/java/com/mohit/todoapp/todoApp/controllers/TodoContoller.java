@@ -36,7 +36,7 @@ public class TodoContoller {
 	}
 	
 	@GetMapping("/add-todo")
-	public String gotoTodo(@ModelAttribute("newTodo")ToDo todo) {
+	public String gotoTodo(@ModelAttribute("todo")ToDo todo) {
 //		String username = (String)model.get("username");
 ////		ToDo todo = new ToDo(0, username, null, LocalDate.now(), false);
 //		ToDo todo = new ToDo();
@@ -66,13 +66,33 @@ public class TodoContoller {
 		}
 		
 		
-		services.addTodo(todo.getDescription(), (String)map.get("username"));
+		services.addTodo(todo.getDescription(), (String)map.get("username"), todo.getTargetDate());
 		return "redirect:list-todos";
 	}
 	
 	@GetMapping("/delete-todo")
 	public String deletTodo(@RequestParam int id) {
-		services.delete(id);
+		services.deleteById(id);
+		return "redirect:list-todos";
+	}
+	
+	@GetMapping("/update-todo")
+	public String showUpdateTodoPage(@RequestParam int id,ModelMap map) {
+		ToDo foundTodo = services.findById(id);
+		map.put("todo", foundTodo);
+		return "addTodo";
+	}
+	
+	@PostMapping("/update-todo")
+	public String updateTodo(ModelMap map ,@Valid ToDo todo, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			logger.info("This is the error {} ", bindingResult.getAllErrors());
+			return "addTodo"; //remain at same page
+		}
+		todo.setUsername((String)map.get("username"));
+		services.updateTodo(todo); //updating the todo
+		map.addAttribute("todo", todo); //adding an attributes 
+		
 		return "redirect:list-todos";
 	}
 	

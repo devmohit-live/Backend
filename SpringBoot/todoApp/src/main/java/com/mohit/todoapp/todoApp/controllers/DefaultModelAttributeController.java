@@ -10,7 +10,7 @@ public class DefaultModelAttributeController {
 	// to return default ModelAttribute of respective classes for different controller
 	
 	
-	@ModelAttribute("newTodo") //for function addtodo in TodoController
+	@ModelAttribute("todo") //for function addtodo in TodoController
 	public ToDo getDefaultTodoPlaceHolder() {
 		return new ToDo();
 	}
