@@ -2,7 +2,6 @@
 	<%@ include file="common/navbar.jspf"%>
 	<div class="container-fluid">
 		<p>Welcome to web ${username}</p>
-		<p>Your password is ${password}</p>
 		<div>
 			<a href="list-todos">Manage Todos</a>
 		</div>
