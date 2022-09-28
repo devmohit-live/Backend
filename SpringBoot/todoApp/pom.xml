@@ -28,7 +28,21 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-
+	<!-- Adding Spring Data JPA-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+	
+	<!-- Adding H2 In Memo Database-->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+		<!-- Scope : runtime means it will not be included in jar nuildup-->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
