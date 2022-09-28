@@ -1,6 +1,6 @@
 	<%@ include file="common/header.jspf"%>
 	<%@ include file="common/navbar.jspf"%>
-	<h3>Welcome ${username}:</h3>
+	<h4style="display:inline">Welcome </h4> <h3 style="display:inline"> ${username}: </h3>
 	<hr>
 	<br>
 	<div class="container">
@@ -8,7 +8,6 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<td>Id</td>
 					<td>Description</td>
 					<td>Target Date</td>
 					<td>Completed</td>
@@ -20,7 +19,6 @@
 			<tbody>
 				<c:forEach items="${todos }" var="todo">
 					<tr>
-						<td>${todo.id}</td>
 						<td>${todo.description}</td>
 						<td>${todo.targetDate}</td>
 						<td>${todo.isCompleted}</td>

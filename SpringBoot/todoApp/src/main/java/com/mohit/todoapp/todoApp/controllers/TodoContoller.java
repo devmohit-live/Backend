@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,33 +18,32 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.mohit.todoapp.todoApp.Services.TodoServices;
+import com.mohit.todoapp.todoApp.Services.UserServices;
 import com.mohit.todoapp.todoApp.entity.Todo;
 
 import jakarta.validation.Valid;
 
 @Controller
-@SessionAttributes("username")
+//@SessionAttributes("username")
 public class TodoContoller {
 	@Autowired
 	private TodoServices services;
+	
+	@Autowired
+	private UserServices userServices;
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@GetMapping("/list-todos")
 	public String getTodos(ModelMap map) {
-		map.addAttribute("todos",services.getTodoByUserame("mohit") );
+		map.addAttribute("todos",services.getTodoByUserame(userServices.getUserName()) );
 		return "listTodos";
 	}
 	
 	@GetMapping("/add-todo")
-	public String gotoTodo(@ModelAttribute("todo")Todo todo) {
-//		String username = (String)model.get("username");
-////		ToDo todo = new ToDo(0, username, null, LocalDate.now(), false);
-//		ToDo todo = new ToDo();
-//		
-//		//default todo for modelAttribute form 
-		
-//		model.put("todo", todo);
+	public String gotoTodo(@ModelAttribute("todo")Todo todo, ModelMap map) {
+		todo.setUsername(userServices.getUserName());
+		map.put("todo", todo);
 		return "addTodo";
 	}
 	
@@ -66,7 +66,7 @@ public class TodoContoller {
 		}
 		
 		
-		services.addTodo(todo.getDescription(), (String)map.get("username"), todo.getTargetDate());
+		services.addTodo(todo.getDescription(), userServices.getUserName(), todo.getTargetDate());
 		return "redirect:list-todos";
 	}
 	
