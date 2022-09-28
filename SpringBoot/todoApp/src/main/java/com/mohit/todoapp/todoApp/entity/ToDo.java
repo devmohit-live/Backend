@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import jakarta.validation.constraints.Size;
 
 
-public class ToDo {
+public class Todo {
 	private int id;
 	private String username;
 	@Size(min=5, message="Description size should be > 5")
@@ -18,7 +18,7 @@ public class ToDo {
 	
 
 
-	public ToDo(int id, String username, String description, LocalDate targetDate, boolean isCompleted) {
+	public Todo(int id, String username, String description, LocalDate targetDate, boolean isCompleted) {
 		this.id = id;
 		this.username = username;
 		this.description = description;
@@ -26,8 +26,8 @@ public class ToDo {
 		this.isCompleted = isCompleted;
 	}
 
-	public ToDo() {
-		// TODO Auto-generated constructor stub
+	public Todo() {
+		super();
 	}
 
 	public int getId() {
@@ -74,7 +74,7 @@ public class ToDo {
 
 	@Override
 	public String toString() {
-		return "ToDo [id=" + id + ", username=" + username + ", description=" + description + ", targetDate="
+		return "Todo [id=" + id + ", username=" + username + ", description=" + description + ", targetDate="
 				+ targetDate + ", isCompleted=" + isCompleted + "]";
 	}
 

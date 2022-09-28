@@ -6,32 +6,32 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.mohit.todoapp.todoApp.entity.ToDo;
+import com.mohit.todoapp.todoApp.entity.Todo;
 
 import jakarta.validation.Valid;
 
 @Service
 public class TodoServices {
-	private static List<ToDo> todos = new ArrayList<>();
+	private static List<Todo> todos = new ArrayList<>();
 	private static int idx = 0;
 	
 	static {
-		todos.add(new ToDo(++idx, "mohit", "Learn Java", LocalDate.now().plusMonths(2), false));
-		todos.add(new ToDo(++idx, "mohit", "Learn Spring", LocalDate.now().plusDays(10), false));
-		todos.add(new ToDo(++idx, "mohit", "Learn Python", LocalDate.now(), true));
-		todos.add(new ToDo(++idx, "mohit", "Learn DevOps", LocalDate.now().plusMonths(5), false));
-		todos.add(new ToDo(++idx, "mohit", "Learn BlockChain", LocalDate.now().plusYears(1), false));
+		todos.add(new Todo(++idx, "mohit", "Learn Java", LocalDate.now().plusMonths(2), false));
+		todos.add(new Todo(++idx, "mohit", "Learn Spring", LocalDate.now().plusDays(10), false));
+		todos.add(new Todo(++idx, "mohit", "Learn Python", LocalDate.now(), true));
+		todos.add(new Todo(++idx, "mohit", "Learn DevOps", LocalDate.now().plusMonths(5), false));
+		todos.add(new Todo(++idx, "mohit", "Learn BlockChain", LocalDate.now().plusYears(1), false));
 				
 	}
 	
 	
-	public List<ToDo> getTodoByUserame(String username){
+	public List<Todo> getTodoByUserame(String username){
 		return todos;
 	}
 
 
 	public void addTodo(String description,String username, LocalDate date) {
-		todos.add(new ToDo(++idx, username, description, date, false))	;	
+		todos.add(new Todo(++idx, username, description, date, false))	;	
 	}
 
 
@@ -40,15 +40,16 @@ public class TodoServices {
 	}
 
 
-	public ToDo findById(int id) {
+	public Todo findById(int id) {
 		// TODO Auto-generated method stub
 		return  todos.stream().filter(el->el.getId()==id).findFirst().get();
 	}
 	
-	public void updateTodo(@Valid ToDo todo) {
+	public void updateTodo(@Valid Todo todo) {
 		deleteById(todo.getId());
 		todo.setTargetDate(todo.getTargetDate());
 		todos.add(todo);
+		System.out.println("Added "+ todo);
 	}
 	
 	

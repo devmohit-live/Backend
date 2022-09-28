@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.mohit.todoapp.todoApp.Services.TodoServices;
-import com.mohit.todoapp.todoApp.entity.ToDo;
+import com.mohit.todoapp.todoApp.entity.Todo;
 
 import jakarta.validation.Valid;
 
@@ -36,7 +36,7 @@ public class TodoContoller {
 	}
 	
 	@GetMapping("/add-todo")
-	public String gotoTodo(@ModelAttribute("todo")ToDo todo) {
+	public String gotoTodo(@ModelAttribute("todo")Todo todo) {
 //		String username = (String)model.get("username");
 ////		ToDo todo = new ToDo(0, username, null, LocalDate.now(), false);
 //		ToDo todo = new ToDo();
@@ -59,7 +59,7 @@ public class TodoContoller {
 	// it have to be placed just immediate adjacent to @modelAttribute
 	
 	@PostMapping("/add-todo")
-	public String addTodo(ModelMap map, @Valid @ModelAttribute("newTodo")ToDo todo, BindingResult bindingResult) {
+	public String addTodo(ModelMap map, @Valid @ModelAttribute("todo")Todo todo, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			logger.info("This is the error {} ", bindingResult.getAllErrors());
 			return "addTodo"; //remain at same page
@@ -78,15 +78,16 @@ public class TodoContoller {
 	
 	@GetMapping("/update-todo")
 	public String showUpdateTodoPage(@RequestParam int id,ModelMap map) {
-		ToDo foundTodo = services.findById(id);
+		Todo foundTodo = services.findById(id);
+		System.out.println(foundTodo);
 		map.put("todo", foundTodo);
 		return "addTodo";
 	}
 	
 	@PostMapping("/update-todo")
-	public String updateTodo(ModelMap map ,@Valid ToDo todo, BindingResult bindingResult) {
+	public String updateTodo( @Valid Todo todo, BindingResult bindingResult, ModelMap map) {
 		if(bindingResult.hasErrors()) {
-			logger.info("This is the error {} ", bindingResult.getAllErrors());
+			logger.info("This is the error {} ", bindingResult.toString());
 			return "addTodo"; //remain at same page
 		}
 		todo.setUsername((String)map.get("username"));

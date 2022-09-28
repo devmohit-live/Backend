@@ -3,7 +3,7 @@ package com.mohit.todoapp.todoApp.controllers;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.mohit.todoapp.todoApp.entity.ToDo;
+import com.mohit.todoapp.todoApp.entity.Todo;
 
 @ControllerAdvice // applies to all contrllers
 public class DefaultModelAttributeController {
@@ -11,7 +11,7 @@ public class DefaultModelAttributeController {
 	
 	
 	@ModelAttribute("todo") //for function addtodo in TodoController
-	public ToDo getDefaultTodoPlaceHolder() {
-		return new ToDo();
+	public Todo getDefaultTodoPlaceHolder() {
+		return new Todo();
 	}
 }
