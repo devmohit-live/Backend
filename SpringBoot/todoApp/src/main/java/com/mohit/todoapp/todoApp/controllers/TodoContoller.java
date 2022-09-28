@@ -91,7 +91,7 @@ public class TodoContoller {
 		}
 		todo.setUsername((String)map.get("username"));
 		services.updateTodo(todo); //updating the todo
-		map.addAttribute("todo", todo); //adding an attributes 
+//		map.addAttribute("todo", todo); //adding an attributes 
 		
 		return "redirect:list-todos";
 	}

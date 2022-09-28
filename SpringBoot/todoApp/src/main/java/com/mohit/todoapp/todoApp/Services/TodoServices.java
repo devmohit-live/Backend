@@ -47,7 +47,7 @@ public class TodoServices {
 	
 	public void updateTodo(@Valid ToDo todo) {
 		deleteById(todo.getId());
-		todo.setTargetDate(null);
+		todo.setTargetDate(todo.getTargetDate());
 		todos.add(todo);
 	}
 	
