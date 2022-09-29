@@ -4,12 +4,14 @@ import java.util.function.Function;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
+import org.springframework.security.web.SecurityFilterChain;
+import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SpringSecurityConfigurations {
 //generally LDAP or Db is used for user details
@@ -37,5 +39,20 @@ private UserDetails createNewUser(Function<String, String> passwordEncoder, Stri
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	
+	//Security Chain
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+		//Default feaures :urls are protected and loginform is made for login if not loggedin
+		
+		httpSecurity.authorizeHttpRequests( auth -> auth.anyRequest().authenticated());
+		httpSecurity.formLogin(withDefaults());
+		
+		//cutom filter chains
+		httpSecurity.csrf().disable();
+		httpSecurity.headers().frameOptions().disable();
+		return httpSecurity.build();
 	}
 }

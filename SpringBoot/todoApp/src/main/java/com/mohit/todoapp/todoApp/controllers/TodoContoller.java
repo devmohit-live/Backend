@@ -90,7 +90,8 @@ public class TodoContoller {
 			logger.info("This is the error {} ", bindingResult.toString());
 			return "addTodo"; //remain at same page
 		}
-		todo.setUsername((String)map.get("username"));
+		System.out.println(todo.getUsername());
+		todo.setUsername(userServices.getUserName());
 		services.updateTodo(todo); //updating the todo
 //		map.addAttribute("todo", todo); //adding an attributes 
 		
