@@ -16,15 +16,6 @@ public class TodoServices {
 	private static List<Todo> todos = new ArrayList<>();
 	private static int idx = 0;
 
-	static {
-		todos.add(new Todo(++idx, "mohit", "Learn Java", LocalDate.now().plusMonths(2), false));
-		todos.add(new Todo(++idx, "mohit", "Learn Spring", LocalDate.now().plusDays(10), false));
-		todos.add(new Todo(++idx, "mohit", "Learn Python", LocalDate.now(), true));
-		todos.add(new Todo(++idx, "mohit", "Learn DevOps", LocalDate.now().plusMonths(5), false));
-		todos.add(new Todo(++idx, "mohit", "Learn BlockChain", LocalDate.now().plusYears(1), false));
-
-	}
-
 	public List<Todo> getTodoByUserame(String username) {
 //		return todos.stream().filter(el -> el.getUsername().equalsIgnoreCase(username)).collect(Collectors.toList());
 		return todos.stream().filter(el -> el.getUsername().equalsIgnoreCase(username)).toList();

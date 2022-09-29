@@ -20,23 +20,22 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.mohit.todoapp.todoApp.Services.TodoServices;
 import com.mohit.todoapp.todoApp.Services.UserServices;
 import com.mohit.todoapp.todoApp.entity.Todo;
+import com.mohit.todoapp.todoApp.repository.TodoRepsitory;
 
 import jakarta.validation.Valid;
 
-
-//@SessionAttributes("username")
-public class TodoContoller {
-	@Autowired
-	private TodoServices services;
-	
+@Controller
+public class TodoContollerJPA {
 	@Autowired
 	private UserServices userServices;
+	@Autowired
+	private TodoRepsitory todoRepsitory;
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@GetMapping("/list-todos")
 	public String getTodos(ModelMap map) {
-		map.addAttribute("todos",services.getTodoByUserame(userServices.getUserName()) );
+		map.addAttribute("todos",todoRepsitory.findByUsername(userServices.getUserName()) );
 		return "listTodos";
 	}
 	

@@ -4,10 +4,17 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 
-
+@Entity
+//@Entity(name = "TodoABC") -> create a table named TodoAbc in H2 for this class
 public class Todo {
+	
+	@Id
+	@GeneratedValue
 	private int id;
 	private String username;
 	@Size(min=5, message="Description size should be > 5")
