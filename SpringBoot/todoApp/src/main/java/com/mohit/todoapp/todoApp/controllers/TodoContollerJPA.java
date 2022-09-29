@@ -2,6 +2,7 @@ package com.mohit.todoapp.todoApp.controllers;
 
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ public class TodoContollerJPA {
 	@GetMapping("/list-todos")
 	public String getTodos(ModelMap map) {
 		map.addAttribute("todos",todoRepsitory.findByUsername(userServices.getUserName()) );
+		map.put("username", userServices.getUserName());
 		return "listTodos";
 	}
 	
@@ -46,17 +48,6 @@ public class TodoContollerJPA {
 		return "addTodo";
 	}
 	
-//	@PostMapping("/add-todo")
-//	public String addTodo(@RequestParam String description,@SessionAttribute String username) {
-//		services.addTodo(description, username);
-//		return "redirect:list-todos";
-//	}
-	
-	//We are using JSR-380 Validation rules
-	
-	//BindingResult stores the add invalid validation results
-	// it have to be placed just immediate adjacent to @modelAttribute
-	
 	@PostMapping("/add-todo")
 	public String addTodo(ModelMap map, @Valid @ModelAttribute("todo")Todo todo, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
@@ -64,22 +55,24 @@ public class TodoContollerJPA {
 			return "addTodo"; //remain at same page
 		}
 		
+		todo.setUsername(userServices.getUserName());
+		todoRepsitory.save(todo);
 		
-		services.addTodo(todo.getDescription(), userServices.getUserName(), todo.getTargetDate());
+//		servivce.addtodo(todo.getDescription(), , todo.getTargetDate());
 		return "redirect:list-todos";
 	}
 	
 	@GetMapping("/delete-todo")
 	public String deletTodo(@RequestParam int id) {
-		services.deleteById(id);
+		todoRepsitory.deleteById(id);
 		return "redirect:list-todos";
 	}
 	
 	@GetMapping("/update-todo")
 	public String showUpdateTodoPage(@RequestParam int id,ModelMap map) {
-		Todo foundTodo = services.findById(id);
-		System.out.println(foundTodo);
-		map.put("todo", foundTodo);
+		Optional<Todo> foundTodo = todoRepsitory.findById(id);
+		System.out.println(foundTodo.get());
+		map.put("todo", foundTodo.get());
 		return "addTodo";
 	}
 	
@@ -89,10 +82,8 @@ public class TodoContollerJPA {
 			logger.info("This is the error {} ", bindingResult.toString());
 			return "addTodo"; //remain at same page
 		}
-		System.out.println(todo.getUsername());
 		todo.setUsername(userServices.getUserName());
-		services.updateTodo(todo); //updating the todo
-//		map.addAttribute("todo", todo); //adding an attributes 
+		todoRepsitory.save(todo); //updating the todo
 		
 		return "redirect:list-todos";
 	}
