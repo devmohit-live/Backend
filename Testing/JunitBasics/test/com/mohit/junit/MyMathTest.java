@@ -10,15 +10,13 @@ class MyMathTest {
 	@Test
 	void test() {
 		//fail("Not yet implemented");
-		int[] nums = {1,2,3,4};
 		// asset(expected, got)
-		assertEquals(10, math.calculateSum(nums));
+		assertEquals(10, math.calculateSum(new int[] {1,2,3,4}));
 	}
 	
 	@Test
 	void tesWithEmptyArrayt() {
-		int[] nums = {};
-		assertEquals(0, math.calculateSum(nums));
+		assertEquals(0, math.calculateSum(new int[] {}));
 		
 	}
 
