@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MockitoAnnotations {
 
 	@Mock
-	private  DataService mock; //there can be n no of mocks
+	private  DataService dataServiceMock; //there can be n no of mocks
 	
 	@InjectMocks // all n mocks will be injected into dependent class
 	private SomeBusinessImpl businessImpl;
@@ -28,21 +28,21 @@ class MockitoAnnotations {
 	@Test
 	void test() {
 
-		when(mock.retriveAllData()).thenReturn(new int[] { 25, -9, 11, 10 });
+		when(dataServiceMock.retriveAllData()).thenReturn(new int[] { 25, -9, 11, 10 });
 		assertEquals(25, businessImpl.findMax());
 	}
 
 	@Test
 	void testWithEmptyArray() {
 
-		when(mock.retriveAllData()).thenReturn(new int[] {});
+		when(dataServiceMock.retriveAllData()).thenReturn(new int[] {});
 		assertEquals(Integer.MIN_VALUE, businessImpl.findMax());
 	}
 
 	@Test
 	void testWithSinglElement() {
 
-		when(mock.retriveAllData()).thenReturn(new int[] { 5 });
+		when(dataServiceMock.retriveAllData()).thenReturn(new int[] { 5 });
 		assertEquals(5, businessImpl.findMax());
 	}
 	
@@ -50,7 +50,7 @@ class MockitoAnnotations {
 	@Test
 	void testWithAllNegative() {
 
-		when(mock.retriveAllData()).thenReturn(new int[] { -1,-1,-1,-9999,-56 });
+		when(dataServiceMock.retriveAllData()).thenReturn(new int[] { -1,-1,-1,-9999,-56 });
 		assertEquals(-1, businessImpl.findMax());
 	}
 
