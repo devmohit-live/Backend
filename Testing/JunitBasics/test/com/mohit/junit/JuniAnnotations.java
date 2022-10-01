@@ -21,23 +21,23 @@ class JuniAnnotations {
 	
 	
 	
-//	BweforeAll and AfterAll are class level methods so they must be static 
-	@BeforeAll 
+//	BeforeAll and AfterAll are class level methods so they must be static 
+	@BeforeAll  // -> same as BeforeClass
 	static void initSetup() {
 		System.out.println( "Common Setup Before(runs once at start) starting any test");
 	}
 	
-	@AfterAll
+	@AfterAll  // -> same as AfterClass
 	static void endSetup() {
 		System.out.println( "Common Setup After(runs once at end) ending of all testt");
 	}
 	
-	@BeforeEach
+	@BeforeEach // -> same as Before
 	void beforeEach() {
 		System.out.println( "Setup to be performed before each test");
 	}
 	
-	@AfterEach
+	@AfterEach  // -> same as After
 	void afterEach() {
 		System.out.println( "Clean-up to be performed after each test");
 	}
