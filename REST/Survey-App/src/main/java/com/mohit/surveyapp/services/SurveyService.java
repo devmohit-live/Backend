@@ -41,7 +41,7 @@ public class SurveyService {
 		return findFirst.isPresent() ? findFirst.get() : null;
 	}
 
-	public List<Question> getSurveyQuestions(String id) {
+	public List<Question> getAllSurveyQuestions(String id) {
 		Survey survey = getSurveyById(id);
 		if (survey == null)
 			return null;
@@ -50,7 +50,7 @@ public class SurveyService {
 	}
 
 	public Question getSurveyQuestionById(String sid, String qid) {
-		List<Question> surveyQuestions = getSurveyQuestions(sid);
+		List<Question> surveyQuestions = getAllSurveyQuestions(sid);
 		if (surveyQuestions == null)
 			return null;
 		Optional<Question> findFirst = surveyQuestions.stream().filter(q -> q.getId().equalsIgnoreCase(qid))
@@ -60,7 +60,7 @@ public class SurveyService {
 
 	public String addNewSurveyQuestion(String id, Question question) {
 		question.setId(getRandomId()); //set auto id
-		List<Question> surveyQuestions = getSurveyQuestions(id);
+		List<Question> surveyQuestions = getAllSurveyQuestions(id);
 		if(surveyQuestions == null) return null;
 		surveyQuestions.add(question);
 		return question.getId(); //return that id for creating resource uri
@@ -70,6 +70,21 @@ public class SurveyService {
 		SecureRandom random = new SecureRandom();
 		String randomId = new BigInteger(32, random).toString();
 		return randomId;
+	}
+
+	public String deleteSurveyQuestionById(String sid, String qid) {
+		List<Question> allSurveyQuestions = getAllSurveyQuestions(sid);
+		if(allSurveyQuestions == null) return null;
+		boolean removed = allSurveyQuestions.removeIf(q->q.getId().equalsIgnoreCase(qid));
+		return removed ? qid : null;
+	}
+
+	public String updateSurveyQuestionById(String sid, String qid, Question question) {
+		String id = deleteSurveyQuestionById(sid,qid);
+		if(id == null) return null;
+		List<Question> allSurveyQuestions = getAllSurveyQuestions(sid);
+		allSurveyQuestions.add(question);
+		return id;
 	}
 
 }
