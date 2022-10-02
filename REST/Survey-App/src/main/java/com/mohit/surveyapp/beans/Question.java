@@ -25,8 +25,12 @@ public class Question {
 	public String getId() {
 		return id;
 	}
-
-
+	
+	public void setId(String randomId) {
+		this.id = randomId;
+		
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -47,8 +51,6 @@ public class Question {
 		return "Question [id=" + id + ", description=" + description + ", options=" + options + ", correctAnswer="
 				+ correctAnswer + "]";
 	}
-	
-	
 	
 	
 }

@@ -1,5 +1,7 @@
 package com.mohit.surveyapp.services;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,27 +33,43 @@ public class SurveyService {
 	}
 
 	public List<Survey> getAllSurveys() {
-		return this.surveys;		
+		return this.surveys;
 	}
 
 	public Survey getSurveyById(String id) {
-		Optional<Survey> findFirst = surveys.stream().filter(s->s.getId().equalsIgnoreCase(id)).findFirst();
+		Optional<Survey> findFirst = surveys.stream().filter(s -> s.getId().equalsIgnoreCase(id)).findFirst();
 		return findFirst.isPresent() ? findFirst.get() : null;
 	}
 
 	public List<Question> getSurveyQuestions(String id) {
 		Survey survey = getSurveyById(id);
-		if(survey == null) return null;
+		if (survey == null)
+			return null;
 		List<Question> questions = survey.getQuestions();
 		return questions;
 	}
 
-	public Question getSurveyQuestionById(String sid,String qid) {
-			List<Question> surveyQuestions = getSurveyQuestions(sid);
-			if(surveyQuestions == null) return null;
-			Optional<Question> findFirst = surveyQuestions.stream().filter(q->q.getId().equalsIgnoreCase(qid)).findFirst();
-			return findFirst.isPresent() ? findFirst.get(): null;
+	public Question getSurveyQuestionById(String sid, String qid) {
+		List<Question> surveyQuestions = getSurveyQuestions(sid);
+		if (surveyQuestions == null)
+			return null;
+		Optional<Question> findFirst = surveyQuestions.stream().filter(q -> q.getId().equalsIgnoreCase(qid))
+				.findFirst();
+		return findFirst.isPresent() ? findFirst.get() : null;
 	}
 
+	public String addNewSurveyQuestion(String id, Question question) {
+		question.setId(getRandomId()); //set auto id
+		List<Question> surveyQuestions = getSurveyQuestions(id);
+		if(surveyQuestions == null) return null;
+		surveyQuestions.add(question);
+		return question.getId(); //return that id for creating resource uri
+	}
+
+	private String getRandomId() {
+		SecureRandom random = new SecureRandom();
+		String randomId = new BigInteger(32, random).toString();
+		return randomId;
+	}
 
 }
