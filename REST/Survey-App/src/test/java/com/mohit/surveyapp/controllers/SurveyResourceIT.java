@@ -3,7 +3,12 @@ package com.mohit.surveyapp.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Base64;
+
+import org.aspectj.lang.annotation.Before;
 import org.json.JSONException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
+import org.springframework.test.context.event.annotation.BeforeTestExecution;
 
 // This is an Integration Test
 //use random port as 8080 is being used by main application
@@ -27,12 +34,20 @@ public class SurveyResourceIT {
 	private TestRestTemplate template;
 	private final String SPECIFIC_QUESTION_URL = "/surveys/Survey1/questions/Question1";
 	private final String GENERIC_QUESTION_URL = "/surveys/Survey1/questions/";
-
+	private HttpHeaders headers = new HttpHeaders();;
+	
+	@BeforeEach
+	void addAuthtandContentHeaders() {
+		headers.add("Authorization", "Basic bW9oaXQ6MTIz"); //adding auth for spring sec
+		headers.add("Content-Type","application/json");
+	}
+	
 	@Test
 	void getSurveyQuestionsById_basicScenario() throws JSONException {
 
-		ResponseEntity<String> responseEntity = template.getForEntity(SPECIFIC_QUESTION_URL, String.class);
-
+//		ResponseEntity<String> responseEntity = template.getForEntity(SPECIFIC_QUESTION_URL, String.class);
+		HttpEntity<String> httpEntity = new HttpEntity<String>(null, headers);
+		ResponseEntity<String> responseEntity = template.exchange(SPECIFIC_QUESTION_URL, HttpMethod.GET, httpEntity, String.class);
 		String expectedResponse = """
 				{
 						"id": "Question1",
@@ -79,7 +94,9 @@ public class SurveyResourceIT {
 							}
 							]
 				""";
-		ResponseEntity<String> responseEntity = template.getForEntity(GENERIC_QUESTION_URL, String.class);
+//		ResponseEntity<String> responseEntity = template.getForEntity(GENERIC_QUESTION_URL, String.class);
+		HttpEntity<String> httpEntity = new HttpEntity<String>(null, headers);
+		ResponseEntity<String> responseEntity = template.exchange(GENERIC_QUESTION_URL, HttpMethod.GET, httpEntity, String.class);
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
 
@@ -99,13 +116,12 @@ public class SurveyResourceIT {
 				""";
 
 		// setting up resquest body
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type","application/json");
+
 		HttpEntity<String> httpEntity = new HttpEntity<String>(body, headers);
-		ResponseEntity<String> responseEntity = template.postForEntity(GENERIC_QUESTION_URL, httpEntity, String.class);
+//		ResponseEntity<String> responseEntity = template.postForEntity(GENERIC_QUESTION_URL, httpEntity, String.class);
 		
 		//or
-//		ResponseEntity<String> responseEntity = template.exchange(GENERIC_QUESTION_URL, HttpMethod.POST, httpEntity, String.class);
+		ResponseEntity<String> responseEntity = template.exchange(GENERIC_QUESTION_URL, HttpMethod.POST, httpEntity, String.class);
 	
 		
 		// response : 201, location of newly created resource
@@ -115,5 +131,11 @@ public class SurveyResourceIT {
 		String locationHeader = responseEntity.getHeaders().get("Location").get(0);
 		template.delete(locationHeader);
 
+	}
+	
+	String performBaiscAuthEncoding(String user, String password) {
+		String combined = user+":"+password;
+		byte[] encodedBytes = Base64.getEncoder().encode(combined.getBytes());
+		return new String(encodedBytes);
 	}
 }

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,6 +27,8 @@ import com.mohit.surveyapp.services.SurveyService;
 //This is an unit test
 
 @WebMvcTest(controllers = SurveyController.class) // telling spring to load context for this controller test
+@AutoConfigureMockMvc(addFilters = false) // spring security works with help of filters
+
 class SurveyResourceTest {
 	// Testing SurveyController using SurveySeviceBean mocks
 
