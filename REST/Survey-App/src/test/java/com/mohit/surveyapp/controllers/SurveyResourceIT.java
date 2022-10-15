@@ -129,8 +129,9 @@ public class SurveyResourceIT {
 		
 		// revert back the changes : as test seq is not predictable
 		String locationHeader = responseEntity.getHeaders().get("Location").get(0);
-		template.delete(locationHeader);
-
+//		template.delete(locationHeader);
+		ResponseEntity<String> responseEntitydel = template.exchange(locationHeader, HttpMethod.DELETE, httpEntity, String.class);
+		assertTrue(responseEntitydel.getStatusCode().is2xxSuccessful());
 	}
 	
 	String performBaiscAuthEncoding(String user, String password) {
