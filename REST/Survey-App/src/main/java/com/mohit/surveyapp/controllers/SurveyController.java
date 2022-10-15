@@ -57,9 +57,9 @@ public class SurveyController {
 		return question;
 	}
 
-	@PostMapping("/surveys/{id}/questions")
-	public ResponseEntity<Object> addSurveyQuestion(@PathVariable String id, @RequestBody Question question) {
-		String qid = service.addNewSurveyQuestion(id, question);
+	@PostMapping("/surveys/{surveyId}/questions")
+	public ResponseEntity<Object> addSurveyQuestion(@PathVariable String surveyId, @RequestBody Question question) {
+		String qid = service.addNewSurveyQuestion(surveyId, question);
 
 		if (qid == null)
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Survey Doesn't Exists or bad content");
