@@ -1,4 +1,4 @@
-package com.mohit.surveyapp.restdataapis.repository;
+package com.mohit.surveyapp.repository;
 
 import java.util.List;
 

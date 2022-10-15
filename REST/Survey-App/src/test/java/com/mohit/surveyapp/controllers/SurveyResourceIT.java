@@ -3,18 +3,16 @@ package com.mohit.surveyapp.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 //Integration Test
@@ -84,14 +82,48 @@ public class SurveyResourceIT {
 		ResponseEntity<String> responseEntity = template.getForEntity(GENERIC_QUESTION_URL, String.class);
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
-		System.out.println("Output is "+ responseEntity.getBody().toString());
+//		System.out.println("Output is " + responseEntity.getBody().toString());
 //		  [
-	//		{id=Question1, description=Most Popular Cloud Platform Today, options=[AWS, Azure, Google Cloud, Oracle Cloud], correctAnswer=AWS}, 
-	//		{id=Question2, description=Fastest Growing Cloud Platform, options=[AWS, Azure, Google Cloud, Oracle Cloud], correctAnswer=Google Cloud}, 
-	//		{id=Question3, description=Most Popular DevOps Tool, options=[Kubernetes, Docker, Terraform, Azure DevOps], correctAnswer=Kubernetes}
+		// {id=Question1, description=Most Popular Cloud Platform Today, options=[AWS,
+		// Azure, Google Cloud, Oracle Cloud], correctAnswer=AWS},
+		// {id=Question2, description=Fastest Growing Cloud Platform, options=[AWS,
+		// Azure, Google Cloud, Oracle Cloud], correctAnswer=Google Cloud},
+		// {id=Question3, description=Most Popular DevOps Tool, options=[Kubernetes,
+		// Docker, Terraform, Azure DevOps], correctAnswer=Kubernetes}
 //		]
 
 		JSONAssert.assertEquals(expectedResponse, responseEntity.getBody().toString(), false);
+
+	}
+
+	@Test
+	void addSurveyQuestion_basicTest() {
+
+		String body = """
+				{
+					"description": "Most Popular Language",
+					"options":["Java", "Python", "C++", "GO"],
+					"correctAnswer": "Java"
+				},
+				""";
+
+		// setting up resquest body
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type","application/json");
+		HttpEntity<String> httpEntity = new HttpEntity<String>(body, headers);
+		ResponseEntity<String> responseEntity = template.postForEntity(GENERIC_QUESTION_URL, httpEntity, String.class);
+		
+		//or
+//		ResponseEntity<String> responseEntity = template.exchange(GENERIC_QUESTION_URL, HttpMethod.POST, httpEntity, String.class);
+	
+		
+		// response : 201, location of newly created resource
+		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+//		System.out.println("Headers : "+responseEntity.getHeaders().get("Location").get(0));
+		
+		// revert back the changes : as test seq is not predictable
+		String locationHeader = responseEntity.getHeaders().get("Location").get(0);
+		template.delete(locationHeader);
 
 	}
 }
