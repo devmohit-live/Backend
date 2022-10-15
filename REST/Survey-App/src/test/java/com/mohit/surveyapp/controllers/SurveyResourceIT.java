@@ -15,7 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-//Integration Test
+// This is an Integration Test
 //use random port as 8080 is being used by main application
 
 //SpringBootTest => loads complete context for testing
@@ -82,15 +82,6 @@ public class SurveyResourceIT {
 		ResponseEntity<String> responseEntity = template.getForEntity(GENERIC_QUESTION_URL, String.class);
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
-//		System.out.println("Output is " + responseEntity.getBody().toString());
-//		  [
-		// {id=Question1, description=Most Popular Cloud Platform Today, options=[AWS,
-		// Azure, Google Cloud, Oracle Cloud], correctAnswer=AWS},
-		// {id=Question2, description=Fastest Growing Cloud Platform, options=[AWS,
-		// Azure, Google Cloud, Oracle Cloud], correctAnswer=Google Cloud},
-		// {id=Question3, description=Most Popular DevOps Tool, options=[Kubernetes,
-		// Docker, Terraform, Azure DevOps], correctAnswer=Kubernetes}
-//		]
 
 		JSONAssert.assertEquals(expectedResponse, responseEntity.getBody().toString(), false);
 
@@ -119,7 +110,6 @@ public class SurveyResourceIT {
 		
 		// response : 201, location of newly created resource
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-//		System.out.println("Headers : "+responseEntity.getHeaders().get("Location").get(0));
 		
 		// revert back the changes : as test seq is not predictable
 		String locationHeader = responseEntity.getHeaders().get("Location").get(0);
