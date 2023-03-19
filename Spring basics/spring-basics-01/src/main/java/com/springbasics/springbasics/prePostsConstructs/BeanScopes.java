@@ -1,4 +1,4 @@
-package com.springbasics.springbasics.beanscopes;
+package com.springbasics.springbasics.prePostsConstructs;
 
 import java.util.Arrays;
 
