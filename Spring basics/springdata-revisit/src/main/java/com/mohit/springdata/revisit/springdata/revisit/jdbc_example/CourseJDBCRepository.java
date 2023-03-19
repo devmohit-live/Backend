@@ -1,4 +1,4 @@
-package com.mohit.springdata.revisit.springdata.revisit.jdbcexample;
+package com.mohit.springdata.revisit.springdata.revisit.jdbc_example;
 
 import java.util.List;
 

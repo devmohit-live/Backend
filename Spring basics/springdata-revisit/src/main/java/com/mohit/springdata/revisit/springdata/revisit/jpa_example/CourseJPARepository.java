@@ -1,4 +1,4 @@
-package com.mohit.springdata.revisit.springdata.revisit.jpaexample;
+package com.mohit.springdata.revisit.springdata.revisit.jpa_example;
 
 import java.util.List;
 
