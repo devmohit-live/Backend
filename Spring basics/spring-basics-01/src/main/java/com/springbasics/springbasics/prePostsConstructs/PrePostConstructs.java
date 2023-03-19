@@ -10,38 +10,45 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
-//Singleton
+
 @Component
-class A{
+class SomeClass{
+	
+	private SomeDependency dependency;
+	
+	SomeClass(SomeDependency dependency){
+		this.dependency = dependency;
+		System.out.println("Dependecies are Wired");
+	}
+	
+	@PostConstruct
+	public void intialize() {
+		System.out.println("Some intitlization work for dependency");
+	}
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Some Cleanup work for dependency");
+	}
 	
 }
 
-
-//Prototype
-//Useful in stateful bean : ex holding a user's info or user related information
-@Component()
-@Scope(value =  ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-
-class B{
+@Component
+class SomeDependency{
 	
 }
-
 
 
 @ComponentScan
 @Configuration
-public class BeanScopes {
+public class PrePostConstructs {
 
 	public static void main(String[] args) {
 		
-		try(var context = new AnnotationConfigApplicationContext(BeanScopes.class)){
-			System.out.println(context.getBean(A.class));
-			System.out.println(context.getBean(A.class));
+		try(var context = new AnnotationConfigApplicationContext(PrePostConstructs.class)){
 			
-			System.out.println(context.getBean(B.class));
-			System.out.println(context.getBean(B.class));
-			System.out.println(context.getBean(B.class));
 		}
 		
 	}

@@ -1,7 +1,8 @@
-package com.springbasics.springbasics.beanscopes;
+package com.springbasics.springbasics.CDI;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,32 +11,39 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 
-@Component
+//CDI : Jakarta's Context and Dependency Injection
+
+
+//@Component
+@Named
 class SomeClass{
 	
 	private SomeDependency dependency;
-	
-	SomeClass(SomeDependency dependency){
+
+	public SomeDependency getDependency() {
+		return dependency;
+	}
+
+//	@Autowired
+	@Inject
+	public void setDependency(SomeDependency dependency) {
+		System.out.println("Setter injection is being done");
 		this.dependency = dependency;
-		System.out.println("Dependecies are Wired");
 	}
 	
-	@PostConstruct
-	public void intialize() {
-		System.out.println("Some intitlization work for dependency");
-	}
-	@PreDestroy
-	public void destroy() {
-		System.out.println("Some Cleanup work for dependency");
-	}
+	
 	
 }
 
-@Component
+//@Component
+@Named
 class SomeDependency{
 	
 }
@@ -43,11 +51,14 @@ class SomeDependency{
 
 @ComponentScan
 @Configuration
-public class PrePostConstructs {
+public class CDIAnnotations {
 
 	public static void main(String[] args) {
 		
-		try(var context = new AnnotationConfigApplicationContext(PrePostConstructs.class)){
+		try(var context = new AnnotationConfigApplicationContext(CDIAnnotations.class)){
+			System.out.println(context.getBean(SomeClass.class).getDependency());
+			
+			
 			
 		}
 		
