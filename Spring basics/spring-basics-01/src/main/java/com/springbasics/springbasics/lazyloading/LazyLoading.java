@@ -55,10 +55,12 @@ public class LazyLoading {
 		
 		try(var context = new AnnotationConfigApplicationContext(LazyLoading.class)){
 			
-			//Class D's dependency will only be loaded when class D will be in use
-//			System.out.println(context.getBean(D.class));
+			System.out.println("Initialization of context is completed");
 			
-			Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
+//			Class D's dependency will only be loaded when class D will be in use
+			System.out.println(context.getBean(D.class));
+			
+			
 		}
 		
 	}
