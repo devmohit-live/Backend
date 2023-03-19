@@ -8,6 +8,7 @@ import com.mohit.springdata.revisit.springdata.revisit.jdbc_example.CourseJDBCRe
 import com.mohit.springdata.revisit.springdata.revisit.jpa_example.CourseJPARepository;
 import com.mohit.springdata.revisit.springdata.revisit.spring_data_jpa.CourseSpringDataJPARepository;
 
+//CommandLineRunner : It is used to execute the code after the Spring Boot application started.
 
 @Component
 public class CourseCommandLineRunner implements CommandLineRunner {

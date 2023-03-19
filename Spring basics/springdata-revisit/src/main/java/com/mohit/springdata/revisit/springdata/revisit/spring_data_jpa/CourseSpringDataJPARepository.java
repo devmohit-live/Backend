@@ -15,6 +15,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+
+
+
+//JPA : speciifcations , it's an API : provided annotations : ex : Entity, Id, Column etc
+// Hibernate is is an implementaion of JPA 
+
 public interface CourseSpringDataJPARepository extends JpaRepository<Course, Long>{
 	//custom method : patten actionByAttribute : find By Author
 	List<Course> findByAuthor(String author);
