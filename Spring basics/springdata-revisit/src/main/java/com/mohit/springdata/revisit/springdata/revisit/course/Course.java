@@ -1,10 +1,16 @@
-package com.mohit.springdata.revisit.springdata.revisit.jdbcexample;
+package com.mohit.springdata.revisit.springdata.revisit.course;
 
 import org.springframework.stereotype.Component;
 
-@Component
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Course {
-	private int id;
+	@Id
+	private long id;
+//	@Column(name = "Name")
 	private String name;
 	private String author;
 	
@@ -21,7 +27,7 @@ public class Course {
 
 
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -32,6 +38,27 @@ public class Course {
 	public String getAuthor() {
 		return author;
 	}
+	
+	
+	
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+
 
 	@Override
 	public String toString() {
