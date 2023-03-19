@@ -49,6 +49,8 @@ class D{
 
 @ComponentScan
 @Configuration
+
+//@Lazy : can be on configuration class too, in that case all the bean of that configuration will be lazy initialized
 public class LazyLoading {
 
 	public static void main(String[] args) {
