@@ -18,7 +18,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 
-//CDI : Jakarta's Context and Dependency Injection
+//CDI : Jakarta's Context and Dependency Injection, set of specifications for Annotations
 
 
 //@Component
